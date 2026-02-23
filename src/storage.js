@@ -26,7 +26,6 @@ export function saveTraineeData(trainees) {
 }
 
 export function loadCourseData() {
-  // TODO: Implement
   // If the file doesn't exist yet, start with an empty array
   if (!fs.existsSync(COURSE_DATA_FILE_PATH)) {
     return [];
@@ -36,7 +35,6 @@ export function loadCourseData() {
 }
 
 export function saveCourseData(courses) {
-  // TODO: Implement
   // Condition check if the data folder exists before writing files
   if (!fs.existsSync("./data")) {
     fs.mkdirSync("./data", { recursive: true });

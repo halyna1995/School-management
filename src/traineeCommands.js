@@ -1,7 +1,6 @@
 import { saveTraineeData, loadTraineeData, loadCourseData, saveCourseData } from './storage.js';
 
 function addTrainee(args) {
-  // TODO: Implement the logic
   // TRAINEE ADD <firstName> <lastName>
   const firstName = args[0];
   const lastName = args[1];
@@ -20,7 +19,6 @@ function addTrainee(args) {
 }
 
 function updateTrainee(args) {
-  // TODO: Implement the logic
   // TRAINEE UPDATE <ID> <firstName> <lastName>
   const idString = args[0];
   const firstName = args[1];
@@ -41,7 +39,6 @@ function updateTrainee(args) {
 }
 
 function deleteTrainee(args) {
-  // TODO: Implement the logic
   // TRAINEE DELETE <ID>
   const idString = args[0];
   if (!idString) {
@@ -72,7 +69,6 @@ function deleteTrainee(args) {
 }
 
 function fetchTrainee(args) {
-  // TODO: Implement the logic
   // TRAINEE GET <ID>
   const idString = args[0];
   if (!idString) {
@@ -101,7 +97,6 @@ function fetchTrainee(args) {
 }
 
 function fetchAllTrainees() {
-  // TODO: Implement the logic
  // TRAINEE GETALL (sorted by last name)
   const trainees = loadTraineeData();
   const sorted = trainees.slice().sort((a, b) => {
@@ -123,10 +118,18 @@ function fetchAllTrainees() {
 export function handleTraineeCommand(subcommand, args) {
   // Read the subcommand and call the appropriate function with the arguments
   // Call the correct function based on the subcommand
-  if (subcommand === 'ADD') return addTrainee(args);
-  if (subcommand === 'UPDATE') return updateTrainee(args);
-  if (subcommand === 'DELETE') return deleteTrainee(args);
-  if (subcommand === 'GET') return fetchTrainee(args);
-  if (subcommand === 'GETALL') return fetchAllTrainees();
-  return 'ERROR: Invalid command';
+  switch (subcommand) {
+    case "ADD":
+      return addTrainee(args);
+    case "UPDATE":
+      return updateTrainee(args);
+    case "DELETE":
+      return deleteTrainee(args);
+    case "GET":
+      return fetchTrainee(args);
+    case "GETALL":
+      return fetchAllTrainees();
+    default:
+      return "ERROR: Invalid command";
+  }
 }

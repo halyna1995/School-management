@@ -1,14 +1,13 @@
 import { saveCourseData, loadCourseData, loadTraineeData} from './storage.js';
 
 function addCourse(args) {
-  // TODO: Implement logic
   // COURSE ADD <name> <startDate>
   const name = args[0];
   const startDate = args[1];
   if (!name || !startDate) {
     return "ERROR: Must provide course name and start date";
   }
-  // Date validation (format + real date), no ISO
+  // Date validation 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
     return "ERROR: Invalid start date. Must be in yyyy-MM-dd format";
   }
@@ -44,7 +43,6 @@ function addCourse(args) {
 }
 
 function updateCourse(args) {
-  // TODO: Implement logic
   // COURSE UPDATE <ID> <name> <startDate>
   const idString = args[0];
   const name = args[1];
@@ -90,7 +88,6 @@ function updateCourse(args) {
 }
 
 function deleteCourse(args) {
-  // TODO: Implement logic
   // COURSE DELETE <ID>
   const idString = args[0];
   if (!idString) {
@@ -108,7 +105,6 @@ function deleteCourse(args) {
 }
 
 function joinCourse(args) {
-  // TODO: Implement logic
   // COURSE JOIN <courseID> <traineeID>
   const courseIdString = args[0];
   const traineeIdString = args[1];
@@ -155,7 +151,7 @@ function joinCourse(args) {
 }
 
 function leaveCourse(args) {
-  // TODO: Implement logic
+  
    // COURSE LEAVE <courseID> <traineeID>
   const courseIdString = args[0];
   const traineeIdString = args[1];
@@ -188,7 +184,6 @@ function leaveCourse(args) {
 }
 
 function getCourse(args) {
-  // TODO: Implement logic
   // COURSE GET <ID>
   const idString = args[0];
   if (!idString) {
@@ -237,12 +232,22 @@ function getAllCourses() {
 
 export function handleCourseCommand(subcommand, args) {
   // Read the subcommand and call the appropriate function with the arguments
-  if (subcommand === "ADD") return addCourse(args);
-  if (subcommand === "UPDATE") return updateCourse(args);
-  if (subcommand === "DELETE") return deleteCourse(args);
-  if (subcommand === "JOIN") return joinCourse(args);
-  if (subcommand === "LEAVE") return leaveCourse(args);
-  if (subcommand === "GET") return getCourse(args);
-  if (subcommand === "GETALL") return getAllCourses();
-  return "ERROR: Invalid command";
+  switch (subcommand) {
+    case "ADD":
+      return addCourse(args);
+    case "UPDATE":
+      return updateCourse(args);
+    case "DELETE":
+      return deleteCourse(args);
+    case "JOIN":
+      return joinCourse(args);
+    case "LEAVE":
+      return leaveCourse(args);
+    case "GET":
+      return getCourse(args);
+    case "GETALL":
+      return getAllCourses();
+    default:
+      return "ERROR: Invalid command";
+  }
 }
