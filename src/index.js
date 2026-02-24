@@ -24,19 +24,17 @@ while (true) {
   }
 
   let output = 'ERROR: Invalid command';
-  
+
   if (command === 'TRAINEE') {
     output = handleTraineeCommand(subcommand, args);
-  }
-  else if (command === 'COURSE') {
+  } else if (command === 'COURSE') {
     output = handleCourseCommand(subcommand, args);
   }
 
   // Print output (errors in red)
   if (typeof output === 'string' && output.startsWith('ERROR:')) {
     console.log(chalk.red(output));
-  }
-  else if (typeof output === 'string' && output.length > 0) {
+  } else if (typeof output === 'string' && output.length > 0) {
     console.log(output);
   }
 }

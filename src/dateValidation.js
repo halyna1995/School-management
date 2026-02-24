@@ -4,7 +4,7 @@ export function isValidStartDate(startDate) {
     return false;
   }
 
-  const parts = startDate.split("-");
+  const parts = startDate.split('-');
   const year = Number(parts[0]);
   const month = Number(parts[1]);
   const day = Number(parts[2]);
@@ -20,8 +20,7 @@ export function isValidStartDate(startDate) {
   }
   // February (28 or 29)
   else if (month === 2) {
-    const isLeapYear =
-      (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     daysInMonth = isLeapYear ? 29 : 28;
   }
 

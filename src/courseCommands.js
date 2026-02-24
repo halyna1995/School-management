@@ -1,5 +1,5 @@
-import { saveCourseData, loadCourseData, loadTraineeData} from './storage.js';
-import { isValidStartDate } from "./dateValidation.js";
+import { saveCourseData, loadCourseData, loadTraineeData } from './storage.js';
+import { isValidStartDate } from './dateValidation.js';
 
 function addCourse(args) {
   // COURSE ADD <name> <startDate>
@@ -7,13 +7,13 @@ function addCourse(args) {
   const startDate = args[1];
 
   if (!name || !startDate) {
-    return "ERROR: Must provide course name and start date";
+    return 'ERROR: Must provide course name and start date';
   }
 
-  // Date validation 
+  // Date validation
   if (!isValidStartDate(startDate)) {
-  return "ERROR: Invalid start date. Must be in yyyy-MM-dd format";
-}
+    return 'ERROR: Invalid start date. Must be in yyyy-MM-dd format';
+  }
 
   const courses = loadCourseData();
   // Generate random unique ID between 0 and 99999
@@ -36,17 +36,19 @@ function updateCourse(args) {
   const startDate = args[2];
 
   if (!idString || !name || !startDate) {
-    return "ERROR: Must provide ID, name and start date.";
+    return 'ERROR: Must provide ID, name and start date.';
   }
 
-  // Date validation 
+  // Date validation
   if (!isValidStartDate(startDate)) {
-  return "ERROR: Invalid start date. Must be in yyyy-MM-dd format";
-}
+    return 'ERROR: Invalid start date. Must be in yyyy-MM-dd format';
+  }
 
   const id = Number(idString);
   const courses = loadCourseData();
-  const course = Number.isInteger(id) ? courses.find((course1) => course1.id === id) : null;
+  const course = Number.isInteger(id)
+    ? courses.find((course1) => course1.id === id)
+    : null;
 
   if (!course) {
     return `ERROR: Course with ID ${idString} does not exist`;
@@ -64,12 +66,14 @@ function deleteCourse(args) {
   const idString = args[0];
 
   if (!idString) {
-    return "ERROR: Invalid command";
+    return 'ERROR: Invalid command';
   }
-  
+
   const id = Number(idString);
   const courses = loadCourseData();
-  const course = Number.isInteger(id) ? courses.find((course1) => course1.id === id) : null;
+  const course = Number.isInteger(id)
+    ? courses.find((course1) => course1.id === id)
+    : null;
 
   if (!course) {
     return `ERROR: Course with ID ${idString} does not exist`;
@@ -87,7 +91,7 @@ function joinCourse(args) {
   const traineeIdString = args[1];
 
   if (!courseIdString || !traineeIdString) {
-    return "ERROR: Must provide course ID and trainee ID";
+    return 'ERROR: Must provide course ID and trainee ID';
   }
 
   const courseId = Number(courseIdString);
@@ -113,11 +117,11 @@ function joinCourse(args) {
   if (!course.participants) course.participants = [];
 
   if (course.participants.includes(traineeId)) {
-    return "ERROR: The Trainee has already joined this course";
+    return 'ERROR: The Trainee has already joined this course';
   }
 
   if (course.participants.length >= 20) {
-    return "ERROR: The course is full.";
+    return 'ERROR: The course is full.';
   }
 
   // Trainee cannot join more than 5 courses
@@ -132,7 +136,7 @@ function joinCourse(args) {
   }
 
   if (count >= 5) {
-    return "ERROR: A trainee is not allowed to join more than 5 courses.";
+    return 'ERROR: A trainee is not allowed to join more than 5 courses.';
   }
 
   course.participants.push(traineeId);
@@ -142,12 +146,12 @@ function joinCourse(args) {
 }
 
 function leaveCourse(args) {
-   // COURSE LEAVE <courseID> <traineeID>
+  // COURSE LEAVE <courseID> <traineeID>
   const courseIdString = args[0];
   const traineeIdString = args[1];
 
   if (!courseIdString || !traineeIdString) {
-    return "ERROR: Must provide course ID and trainee ID";
+    return 'ERROR: Must provide course ID and trainee ID';
   }
 
   const courseId = Number(courseIdString);
@@ -173,7 +177,7 @@ function leaveCourse(args) {
   if (!course.participants) course.participants = [];
 
   if (!course.participants.includes(traineeId)) {
-    return "ERROR: The Trainee did not join the course";
+    return 'ERROR: The Trainee did not join the course';
   }
 
   course.participants = course.participants.filter((id) => id !== traineeId);
@@ -187,7 +191,7 @@ function getCourse(args) {
   const idString = args[0];
 
   if (!idString) {
-    return "ERROR: Invalid command";
+    return 'ERROR: Invalid command';
   }
 
   const courseId = Number(idString);
@@ -214,7 +218,7 @@ function getCourse(args) {
     }
   }
 
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 function getAllCourses() {
@@ -227,38 +231,40 @@ function getAllCourses() {
     return 0;
   });
 
-  const lines = ["Courses:"];
+  const lines = ['Courses:'];
 
   for (const course of sorted) {
     const amount = (course.participants || []).length;
-    const full = amount >= 20 ? " FULL" : "";
-    lines.push(`${course.id} ${course.name} ${course.startDate} ${amount}${full}`);
+    const full = amount >= 20 ? ' FULL' : '';
+    lines.push(
+      `${course.id} ${course.name} ${course.startDate} ${amount}${full}`
+    );
   }
 
-  lines.push("");
+  lines.push('');
   lines.push(`Total: ${sorted.length}`);
 
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 export function handleCourseCommand(subcommand, args) {
   // Read the subcommand and call the appropriate function with the arguments
   switch (subcommand) {
-    case "ADD":
+    case 'ADD':
       return addCourse(args);
-    case "UPDATE":
+    case 'UPDATE':
       return updateCourse(args);
-    case "DELETE":
+    case 'DELETE':
       return deleteCourse(args);
-    case "JOIN":
+    case 'JOIN':
       return joinCourse(args);
-    case "LEAVE":
+    case 'LEAVE':
       return leaveCourse(args);
-    case "GET":
+    case 'GET':
       return getCourse(args);
-    case "GETALL":
+    case 'GETALL':
       return getAllCourses();
     default:
-      return "ERROR: Invalid command";
+      return 'ERROR: Invalid command';
   }
 }
