@@ -5,15 +5,12 @@ export function parseCommand(userInput) {
     return { command: null, subcommand: null, args: [] };
   }
 
-  // Split the line by spaces
- const parts = line.split(/\s+/);
+   // Split by one-or-more whitespace characters
+    const parts = line.split(/\s+/);
 
-  // Remove empty elements
-const cleanParts = parts.filter((part) => part !== "");
-
-  const command = cleanParts[0] || null;
-  const subcommand = cleanParts[1] || null;
-  const args = cleanParts.slice(2);
+    const command = parts[0] ? parts[0].toUpperCase() : null;
+    const subcommand = parts[1] ? parts[1].toUpperCase() :  null;
+    const args = parts.slice(2);
 
   return { command, subcommand, args };
 }
