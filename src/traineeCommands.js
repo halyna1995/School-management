@@ -1,4 +1,9 @@
-import { saveTraineeData, loadTraineeData, loadCourseData, saveCourseData } from './storage.js';
+import {
+  saveTraineeData,
+  loadTraineeData,
+  loadCourseData,
+  saveCourseData,
+} from './storage.js';
 
 function addTrainee(args) {
   // TRAINEE ADD <firstName> <lastName>
@@ -6,7 +11,7 @@ function addTrainee(args) {
   const lastName = args[1];
 
   if (!firstName || !lastName) {
-    return "ERROR: Must provide first and last name";
+    return 'ERROR: Must provide first and last name';
   }
 
   const trainees = loadTraineeData();
@@ -30,12 +35,14 @@ function updateTrainee(args) {
   const lastName = args[2];
 
   if (!idString || !firstName || !lastName) {
-    return "ERROR: Must provide ID, first name and last name";
+    return 'ERROR: Must provide ID, first name and last name';
   }
 
   const id = Number(idString);
   const trainees = loadTraineeData();
-  const trainee = Number.isInteger(id) ? trainees.find((trainee1) => trainee1.id === id) : null;
+  const trainee = Number.isInteger(id)
+    ? trainees.find((trainee1) => trainee1.id === id)
+    : null;
 
   if (!trainee) {
     return `ERROR: Trainee with ID ${idString} does not exist`;
@@ -53,12 +60,14 @@ function deleteTrainee(args) {
   const idString = args[0];
 
   if (!idString) {
-    return "ERROR: Invalid command"; 
+    return 'ERROR: Invalid command';
   }
 
   const id = Number(idString);
   const trainees = loadTraineeData();
-  const index = Number.isInteger(id) ? trainees.findIndex((trainee) => trainee.id === id) : -1;
+  const index = Number.isInteger(id)
+    ? trainees.findIndex((trainee) => trainee.id === id)
+    : -1;
 
   if (index === -1) {
     return `ERROR: Trainee with ID ${idString} does not exist`;
@@ -74,7 +83,9 @@ function deleteTrainee(args) {
 
   for (const course of courses) {
     const before = (course.participants || []).length;
-    course.participants = (course.participants || []).filter((traineeID) => traineeID !== removed.id);
+    course.participants = (course.participants || []).filter(
+      (traineeID) => traineeID !== removed.id
+    );
     const after = (course.participants || []).length;
 
     if (after !== before) changed = true;
@@ -92,12 +103,14 @@ function fetchTrainee(args) {
   const idString = args[0];
 
   if (!idString) {
-    return "ERROR: Invalid command";
+    return 'ERROR: Invalid command';
   }
 
   const id = Number(idString);
   const trainees = loadTraineeData();
-  const trainee = Number.isInteger(id) ? trainees.find((trainee1) => trainee1.id === id) : null;
+  const trainee = Number.isInteger(id)
+    ? trainees.find((trainee1) => trainee1.id === id)
+    : null;
 
   if (!trainee) {
     return `ERROR: Trainee with ID ${idString} does not exist`;
@@ -117,14 +130,14 @@ function fetchTrainee(args) {
 
   const coursesLine =
     courseNames.length === 0
-      ? "Courses: None"
-      : `Courses: ${courseNames.join(", ")}`;
+      ? 'Courses: None'
+      : `Courses: ${courseNames.join(', ')}`;
 
   return `${trainee.id} ${trainee.firstName} ${trainee.lastName}\n${coursesLine}`;
 }
 
 function fetchAllTrainees() {
- // TRAINEE GETALL (sorted by last name)
+  // TRAINEE GETALL (sorted by last name)
   const trainees = loadTraineeData();
 
   const sorted = trainees.slice().sort((a, b) => {
@@ -135,32 +148,32 @@ function fetchAllTrainees() {
     return 0;
   });
 
-  const lines = ["Trainees:"];
+  const lines = ['Trainees:'];
 
   for (const trainee of sorted) {
     lines.push(`${trainee.id} ${trainee.firstName} ${trainee.lastName}`);
   }
-  
-  lines.push("");
+
+  lines.push('');
   lines.push(`Total: ${sorted.length}`);
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 export function handleTraineeCommand(subcommand, args) {
   // Read the subcommand and call the appropriate function with the arguments
   // Call the correct function based on the subcommand
   switch (subcommand) {
-    case "ADD":
+    case 'ADD':
       return addTrainee(args);
-    case "UPDATE":
+    case 'UPDATE':
       return updateTrainee(args);
-    case "DELETE":
+    case 'DELETE':
       return deleteTrainee(args);
-    case "GET":
+    case 'GET':
       return fetchTrainee(args);
-    case "GETALL":
+    case 'GETALL':
       return fetchAllTrainees();
     default:
-      return "ERROR: Invalid command";
+      return 'ERROR: Invalid command';
   }
 }
