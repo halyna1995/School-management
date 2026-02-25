@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { handleCourseCommand } from '../src/courseCommands.js';
+import { loadCourseData, saveCourseData, saveTraineeData } from '../src/storage.js';
 
 describe('courseCommands (simple validation tests)', () => {
   test('COURSE ADD -> error when missing params', () => {
@@ -20,5 +21,17 @@ describe('courseCommands (simple validation tests)', () => {
   test('COURSE JOIN -> error when missing params', () => {
     const out = handleCourseCommand('JOIN', ['10']); // no trainee id
     expect(out).toBe('ERROR: Must provide course ID and trainee ID');
+  });
+
+  test('COURSE JOIN -> adds trainee to participants', () => {
+    // reset data
+    saveTraineeData([{ id: 1, firstName: 'A', lastName: 'B' }]);
+    saveCourseData([
+      { id: 10, name: 'JS', startDate: '2026-02-01', participants: [] },
+    ]);
+    const out = handleCourseCommand('JOIN', ['10', '1']);
+    expect(out).toBe('A B Joined JS');
+    const courses = loadCourseData();
+    expect(courses[0].participants).toEqual([1]);
   });
 });
